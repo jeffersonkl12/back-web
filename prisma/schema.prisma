@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+  nome String 
+  email String @unique
+  senha String
+  testemunhos Testemunho[] 
+  comentarios Comentario[]
+  likes Like[]
+}
+
+model Testemunho {
+  id Int @id @default(autoincrement())
+  titulo String
+  conteudo String
+  autor Usuario @relation(fields: [autorId], references: [id])
+  autorId Int
+  dataCriacao DateTime @default(now())
+  comentarios Comentario[]
+}
+
+model Comentario {
+  id Int @id @default(autoincrement())
+  conteudo String
+  autor Usuario @relation(fields: [usuarioId],references: [id])
+  usuarioId Int
+  testemunho Testemunho @relation(fields: [testemunhoId],references: [id])
+  testemunhoId Int
+  outroComentario Comentario? @relation(fields: [outroComentarioId],references: [id],name: "outroComentarios")
+  outroComentarioId Int?
+  outroComentarios Comentario[] @relation(name: "outroComentarios")
+  likes Like[]
+}
+
+model Like {
+  id Int @id @default(autoincrement())
+  comentario Comentario @relation(fields: [comentarioId], references: [id])
+  comentarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+}
