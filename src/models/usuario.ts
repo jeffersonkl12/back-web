@@ -4,7 +4,7 @@ class Usuario {
     email: string;
     senha: string;
 
-    constructor(id: number | undefined,nome: string,email:string,senha: string){
+    constructor(nome: string,email:string,senha: string,id?: number){
         this.id = id;
         this.nome = nome;
         this.email = email;
