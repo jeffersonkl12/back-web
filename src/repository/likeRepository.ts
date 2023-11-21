@@ -4,7 +4,20 @@ import prisma from "../database/database";
 class LikeRepository {
 
     static save = async (novo: Like) => {
-        return await prisma.like.create({ data: novo });
+        return await prisma.like.create({
+            data: {
+                comentario: {
+                    connect: {
+                        id: novo.comentarioId
+                    }
+                },
+                usuario: {
+                    connect: {
+                        id: novo.usuarioId
+                    }
+                }
+            }
+        });
     }
 
     static findAll = async () => {

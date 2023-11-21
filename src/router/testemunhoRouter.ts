@@ -35,8 +35,8 @@ testemuhoRouter.post("/", async (req,res) =>{
     try{
         const testemunhoSave = await TestemunhoRepository.save(testemunho);
         res.json(testemunhoSave);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    }catch(ex: any){
+        throw new ErrorBase(ex.message);
     }
 });
 

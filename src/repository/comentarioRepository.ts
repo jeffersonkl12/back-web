@@ -5,7 +5,19 @@ class ComentarioRepository {
 
     static save = async (novo: Comentario) => {
         return prisma.comentario.create({
-            data: novo
+            data: {
+                conteudo: novo.conteudo,
+                autor: {
+                    connect:{
+                        id: novo.usuarioId
+                    }
+                },
+                testemunho:{
+                    connect:{
+                        id: novo.testemunhoId
+                    }
+                }
+            }  
         });
     }
 

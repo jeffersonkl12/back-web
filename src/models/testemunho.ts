@@ -1,3 +1,6 @@
+import Comentario from "./comentario";
+import Usuario from "./usuario";
+
 class Testemunho {
     id?: number;
     titulo: string;
@@ -5,7 +8,13 @@ class Testemunho {
     dataCriacao: Date;
     autorId: number;
 
-    constructor(titulo: string,conteudo: string,dataCriacao: Date,autorId: number,id?: number){
+    constructor(titulo: string,
+        conteudo: string,
+        dataCriacao: Date,
+        autorId: number,
+        id?: number,
+    ) {
+
         this.id = id;
         this.titulo = titulo;
         this.conteudo = conteudo;

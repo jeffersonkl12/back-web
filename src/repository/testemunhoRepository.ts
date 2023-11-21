@@ -4,7 +4,18 @@ import prisma from "../database/database";
 class TestemunhoRepository {
 
     static save = async (novo: Testemunho) => {
-        return await prisma.testemunho.create({ data: novo });
+        return await prisma.testemunho.create({ 
+            data: {
+                conteudo: novo.conteudo,
+                titulo: novo.titulo,
+                dataCriacao: novo.dataCriacao,
+                autor:{
+                    connect:{
+                        id: novo.autorId
+                    }
+                }
+            } 
+        });
     }
 
     static findAll = async () => {
@@ -15,6 +26,9 @@ class TestemunhoRepository {
         return await prisma.testemunho.findUnique({
             where: {
                 id: id
+            },
+            include: {
+                autor: true
             }
         });
     }
