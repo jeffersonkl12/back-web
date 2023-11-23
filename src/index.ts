@@ -3,10 +3,13 @@ import usuairoRouter from "./router/usuarioRouter";
 import testemuhoRouter from "./router/testemunhoRouter";
 import likeRouter from "./router/likeRouter";
 import comentarioRouter from "./router/comentarioRouter";
+import authenticationRouter from './router/authentication';
 
 const app = express();
 
 app.use(express.json());
+app.use(authenticationRouter);
+
 
 app.use("/usuario",usuairoRouter);
 app.use("/testemunho",testemuhoRouter);
@@ -15,7 +18,7 @@ app.use("/comentario",comentarioRouter);
 
 app.use(async (err: Error,req: Request,res: Response,next: NextFunction)=>{
     console.log(err);
-    res.status(500).send("algo deu errado!");
+    res.status(500).send(err);
 });
 
 app.listen(8080,"127.0.0.1",()=>{
