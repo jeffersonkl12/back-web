@@ -1,19 +1,11 @@
 import jwt from "jsonwebtoken";
-import express from "express";
-import dotenv from "dotenv";
+import Express from "express";
 import { error } from "console";
 import ErrorBase from "../error/errorBase";
+import { verificaToken } from "../utilities/token";
 
-dotenv.config();
-const SEGREDO = process.env.SEGREDO!;
 
-const authenticationRouter = express.Router();
-
-authenticationRouter.use("/gerar", (req, res) => {
-    const token = jwt.sign({ usuario: "usuario" }, "segredo");
-    res.json({ token: token });
-});
-
+const authenticationRouter = Express.Router();
 
 authenticationRouter.use("/", (req, res, next) => {
 
@@ -25,8 +17,10 @@ authenticationRouter.use("/", (req, res, next) => {
 
         const token = req.headers.authorization.split(" ")[1];
 
-        if (token && jwt.verify(token, SEGREDO)) {
+        if (token && verificaToken(token)) {
             next();
+        }else{
+            res.status(401).send("nao autorizado!");
         }
     } catch (e) {
         

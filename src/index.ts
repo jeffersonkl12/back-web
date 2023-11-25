@@ -4,10 +4,12 @@ import testemuhoRouter from "./router/testemunhoRouter";
 import likeRouter from "./router/likeRouter";
 import comentarioRouter from "./router/comentarioRouter";
 import authenticationRouter from './router/authentication';
+import loginRouter from './router/loginRouter';
 
 const app = express();
 
 app.use(express.json());
+app.use("/login",loginRouter);
 app.use(authenticationRouter);
 
 

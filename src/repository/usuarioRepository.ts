@@ -38,7 +38,14 @@ class UsuarioRepository {
         });
     }
 
-
+    static existUsuario = async (email: string, senha: string) => {
+        return await prisma.usuario.findUnique({
+            where: {
+                email: email,
+                senha: senha
+            }
+        });
+    };
 }
 
 export default UsuarioRepository;
