@@ -1,12 +1,27 @@
 import Usuario from "../models/usuario";
 import prisma from "../database/database";
+import { Prisma } from "@prisma/client";
+import CredentialErros from "../error/credentialsError";
 
 class UsuarioRepository {
 
     static save = async (novo: Usuario) => {
-        return await prisma.usuario.create({
-            data: novo
-        });
+        try {
+            return await prisma.usuario.create({
+                data: novo
+            });
+        } catch (e) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+
+                if (e.code === "P2002") {
+                    console.log(e);
+                    throw new CredentialErros(`Usuario ja existente com essas credenciais: ${e.meta?.target}`);
+                }
+            }
+
+            throw e;
+        }
+
     }
 
     static findAll = async () => {
