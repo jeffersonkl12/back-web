@@ -12,7 +12,7 @@ import CredentialErros from './error/credentialsError';
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/login", loginRouter);
 app.use("/cadastro",cadastroRouter);
@@ -25,8 +25,7 @@ app.use("/like", likeRouter);
 app.use("/comentario", comentarioRouter);
 
 app.use(async (err: Error, req: Request, res: Response, next: NextFunction) => {
-    //console.log(err);
-    
+
     if (err instanceof TokenError ||
         err instanceof CredentialErros) {
         res.status(401);

@@ -6,41 +6,41 @@ import Testemunho from "../models/testemunho";
 
 const testemuhoRouter = Express.Router();
 
-testemuhoRouter.get("/",async (req,res) =>{
+testemuhoRouter.get("/",async (req,res,next) =>{
 
     try{
         const testemunhos = await TestemunhoService.findAll();
         res.json(testemunhos);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    }catch(e){
+        next(e);
     }
 
 });
 
-testemuhoRouter.get("/:id", async (req,res) =>{
+testemuhoRouter.get("/:id", async (req,res,next) =>{
 
     const id = parseInt(req.params.id);
 
     try{
         const testemunhoId = await TestemunhoRepository.findById(id);
         res.json(testemunhoId);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    }catch(e){
+        next(e);
     }
 });
 
-testemuhoRouter.post("/", async (req,res) =>{
+testemuhoRouter.post("/", async (req,res,next) =>{
     const testemunho: Testemunho = req.body;
 
     try{
         const testemunhoSave = await TestemunhoRepository.save(testemunho);
         res.json(testemunhoSave);
-    }catch(ex: any){
-        throw new ErrorBase(ex.message);
+    }catch(e){
+        next(e);
     }
 });
 
-testemuhoRouter.put("/:id", async (req,res) =>{
+testemuhoRouter.put("/:id", async (req,res,next) =>{
     
     const id = parseInt(req.params.id);
     const testemunho: Testemunho = req.body;
@@ -48,20 +48,20 @@ testemuhoRouter.put("/:id", async (req,res) =>{
     try{
         const testemunhoUpdate = await TestemunhoService.update(id,testemunho);
         res.json(testemunhoUpdate);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    }catch(e){
+        next(e);
     }
 });
 
-testemuhoRouter.delete("/:id", async (req,res)=>{
+testemuhoRouter.delete("/:id", async (req,res,next)=>{
 
     const id = parseInt(req.params.id);
 
     try{
         const testemunho = await TestemunhoService.delete(id);
         res.json(testemunho);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    }catch(e){
+        next(e);
     }
 });
 

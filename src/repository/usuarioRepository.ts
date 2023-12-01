@@ -15,7 +15,7 @@ class UsuarioRepository {
 
                 if (e.code === "P2002") {
                     console.log(e);
-                    throw new CredentialErros(`Usuario ja existente com essas credenciais: ${e.meta?.target}`);
+                    throw e;
                 }
             }
 
@@ -61,6 +61,14 @@ class UsuarioRepository {
             }
         });
     };
+
+    static findUsuarioByEmail = async (email: string) => {
+        return await prisma.usuario.findUnique({
+            where: {
+                email: email
+            }
+        });
+    }
 }
 
 export default UsuarioRepository;

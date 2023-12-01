@@ -5,41 +5,41 @@ import Usuario from "../models/usuario";
 
 const usuairoRouter = Express.Router();
 
-usuairoRouter.get("/", async (req, res) => {
+usuairoRouter.get("/", async (req, res,next) => {
 
     try {
         const usuarios = await UsuarioService.findAll();
         res.json(usuarios);
-    } catch (ex) {
-        throw new ErrorBase("algo errado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 
-usuairoRouter.get("/:id", async (req, res) => {
+usuairoRouter.get("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
 
     try {
         const usuario = await UsuarioService.findById(id);
         res.json(usuario);
-    } catch (ex) {
-        throw new ErrorBase("algo errado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 
-usuairoRouter.post("/", async (req, res) => {
+usuairoRouter.post("/", async (req, res,next) => {
 
     const usuario: Usuario = req.body;
 
     try {
         const usuarioSave = await UsuarioService.save(usuario);
         res.json(usuarioSave);
-    } catch (ex) {
-        throw new ErrorBase("algo errado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 
-usuairoRouter.put("/:id", async (req, res) => {
+usuairoRouter.put("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
     const usuario: Usuario = req.body;
@@ -47,21 +47,21 @@ usuairoRouter.put("/:id", async (req, res) => {
     try {
         const usuarioUpdate = await UsuarioService.update(id, usuario);
         res.json(usuarioUpdate);
-    } catch (ex) {
-        throw new ErrorBase("algo errado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 
 });
 
-usuairoRouter.delete("/:id", async (req, res) => {
+usuairoRouter.delete("/:id", async (req, res,next) => {
 
     const id = parseInt(req.params.id);
 
     try {
         const usuario = await UsuarioService.delete(id);
         res.json(usuario);
-    } catch (ex) {
-        throw new ErrorBase("algo errado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 
 });

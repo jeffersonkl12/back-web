@@ -7,12 +7,15 @@ import CredentialErros from "../error/credentialsError";
 
 const cadastroRouter = Express.Router();
 
-cadastroRouter.post("/", async (req, res) => {
+cadastroRouter.post("/", async (req, res,next) => {
     const { email, senha, nome } = req.body;
+    try {
+        const usuario = await cadastroService(nome, email, senha);
 
-    const usuario = await cadastroService(nome, email, senha);
-
-    res.status(201).send("cadastro realizado com sucesso!");
+        res.status(201).send("cadastro realizado com sucesso!");
+    } catch (e) {
+        next(e);
+    }
 
 });
 
