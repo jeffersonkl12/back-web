@@ -1,12 +1,27 @@
 import Usuario from "../models/usuario";
 import prisma from "../database/database";
+import { Prisma } from "@prisma/client";
+import CredentialErros from "../error/credentialsError";
 
 class UsuarioRepository {
 
     static save = async (novo: Usuario) => {
-        return await prisma.usuario.create({
-            data: novo
-        });
+        try {
+            return await prisma.usuario.create({
+                data: novo
+            });
+        } catch (e) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+
+                if (e.code === "P2002") {
+                    console.log(e);
+                    throw e;
+                }
+            }
+
+            throw e;
+        }
+
     }
 
     static findAll = async () => {
@@ -38,7 +53,22 @@ class UsuarioRepository {
         });
     }
 
+    static existUsuario = async (email: string, senha: string) => {
+        return await prisma.usuario.findUnique({
+            where: {
+                email: email,
+                senha: senha
+            }
+        });
+    };
 
+    static findUsuarioByEmail = async (email: string) => {
+        return await prisma.usuario.findUnique({
+            where: {
+                email: email
+            }
+        });
+    }
 }
 
 export default UsuarioRepository;

@@ -5,62 +5,62 @@ import ErrorBase from "../error/errorBase";
 
 const comentarioRouter = Express.Router();
 
-comentarioRouter.get("/", async (req,res) =>{
+comentarioRouter.get("/", async (req, res, next) => {
 
-    try{
+    try {
         const comentario = await ComentarioService.findAll();
         res.json(comentario);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 
-comentarioRouter.get("/:id", async (req,res) =>{
+comentarioRouter.get("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
 
-    try{
+    try {
         const comentario = await ComentarioService.findById(id);
         res.json(comentario);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 
-comentarioRouter.post("/", async (req,res) =>{
+comentarioRouter.post("/", async (req, res, next) => {
 
     const comentario: Comentario = req.body;
 
-    try{
+    try {
         const comentarioSave = await ComentarioService.save(comentario);
         res.json(comentario);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 
-comentarioRouter.put("/:id", async (req,res) =>{
+comentarioRouter.put("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
-    const comentario: Comentario = req.body; 
+    const comentario: Comentario = req.body;
 
-    try{
-        const comentarioUpdate = await ComentarioService.update(id,comentario);
+    try {
+        const comentarioUpdate = await ComentarioService.update(id, comentario);
         res.json(comentarioUpdate);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 
-comentarioRouter.delete("/:id", async (req,res) =>{
+comentarioRouter.delete("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
-    
-    try{
+
+    try {
         const comentario = await ComentarioService.delete(id);
         res.json(comentario);
-    }catch(ex){
-        throw new ErrorBase("algo inesperado aconteceu!");
+    } catch (e) {
+        next(e);
     }
 });
 

@@ -23,6 +23,13 @@ class UsuarioService {
         return await UsuarioRepository.deleteById(id);
     }
 
+    static existUsuario = async (email: string, senha: string) => {
+        return UsuarioRepository.existUsuario(email, senha);
+    }
+
+    static findUsuarioByEmail = async (email: string) => {
+        return UsuarioRepository.findUsuarioByEmail(email);
+    }
 }
 
 export default UsuarioService;
