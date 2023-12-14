@@ -6,14 +6,17 @@ import loginService from "../service/loginService";
 
 const loginRouter = Express.Router();
 
-loginRouter.post("/", async (req, res) => {
+loginRouter.post("/", async (req, res, next) => {
 
-    console.log("token");
-    const [email, senha] = atob(req.headers.authorization!.split(" ")[1]).split(":");
-    
-    const token = await loginService(email,senha);
+    try {
+        const [email, senha] = atob(req.headers.authorization!.split(" ")[1]).split(":");
 
-    res.json({token: token});
+        const token = await loginService(email, senha);
+
+        res.json({ token: token });
+    } catch (e) {
+        next(e);
+    }
 });
 
 export default loginRouter;

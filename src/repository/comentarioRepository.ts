@@ -1,5 +1,6 @@
 import Comentario from "../models/comentario";
 import prisma from "../database/database";
+import excluirCampos from "../utilities/excluirCampos";
 
 class ComentarioRepository {
 
@@ -17,6 +18,9 @@ class ComentarioRepository {
                         id: novo.testemunhoId
                     }
                 }
+            },
+            include: {
+                autor: excluirCampos("Usuario",["senha"])
             }  
         });
     }
@@ -28,7 +32,14 @@ class ComentarioRepository {
     static findById = async (id: number) => {
         return await prisma.comentario.findUnique({
             where: {
-                id: id
+                id: id,
+            },
+            include: {
+                autor: {
+                    select: excluirCampos("Usuario",["senha"])
+                },
+                likes: true,
+                outroComentarios: true
             }
         });
     }
@@ -49,6 +60,7 @@ class ComentarioRepository {
             }
         });
     }
+
 }
 
 export default ComentarioRepository;

@@ -30,6 +30,10 @@ class UsuarioService {
     static findUsuarioByEmail = async (email: string) => {
         return UsuarioRepository.findUsuarioByEmail(email);
     }
+
+    static findUsuarioByEmailAndSenha = async (email: string, senha: string) => {
+        return UsuarioRepository.findUsuarioByEmailAndSenha(email,senha);
+    }
 }
 
 export default UsuarioService;

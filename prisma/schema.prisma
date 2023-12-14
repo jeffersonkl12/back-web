@@ -23,7 +23,7 @@ model Usuario {
 model Testemunho {
   id Int @id @default(autoincrement())
   titulo String
-  conteudo String
+  conteudo String @db.VarChar(500)
   autor Usuario @relation(fields: [autorId], references: [id])
   autorId Int
   dataCriacao DateTime @default(now())

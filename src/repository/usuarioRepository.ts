@@ -2,6 +2,7 @@ import Usuario from "../models/usuario";
 import prisma from "../database/database";
 import { Prisma } from "@prisma/client";
 import CredentialErros from "../error/credentialsError";
+import excluirCampos from "../utilities/excluirCampos";
 
 class UsuarioRepository {
 
@@ -67,6 +68,16 @@ class UsuarioRepository {
             where: {
                 email: email
             }
+        });
+    };
+
+    static findUsuarioByEmailAndSenha = async (email: string, senha: string) => {
+        return await prisma.usuario.findUnique({
+            where: {
+                email: email,
+                senha: senha
+            },
+            select: excluirCampos("Usuario",["senha"])
         });
     }
 }

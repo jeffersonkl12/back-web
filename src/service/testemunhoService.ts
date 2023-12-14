@@ -23,6 +23,14 @@ class TestemunhoService {
         return await TestemunhoRepository.delete(id);
     }
 
+    static filtro = async (page: number, size: number) =>{
+        return await TestemunhoRepository.filtro(page,size);
+    }
+
+    static quantidade = async () =>{
+        return await TestemunhoRepository.quantidade();
+    }
+
 }
 
 export default TestemunhoService;

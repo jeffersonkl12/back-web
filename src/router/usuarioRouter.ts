@@ -2,10 +2,12 @@ import Express from "express";
 import UsuarioService from "../service/usuarioService";
 import ErrorBase from "../error/errorBase";
 import Usuario from "../models/usuario";
+import { decodeToken } from "../utilities/token";
+import { JwtPayload } from "jsonwebtoken";
 
 const usuairoRouter = Express.Router();
 
-usuairoRouter.get("/", async (req, res,next) => {
+usuairoRouter.get("/", async (req, res, next) => {
 
     try {
         const usuarios = await UsuarioService.findAll();
@@ -27,7 +29,7 @@ usuairoRouter.get("/:id", async (req, res, next) => {
     }
 });
 
-usuairoRouter.post("/", async (req, res,next) => {
+usuairoRouter.post("/", async (req, res, next) => {
 
     const usuario: Usuario = req.body;
 
@@ -53,7 +55,7 @@ usuairoRouter.put("/:id", async (req, res, next) => {
 
 });
 
-usuairoRouter.delete("/:id", async (req, res,next) => {
+usuairoRouter.delete("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
 
@@ -64,6 +66,24 @@ usuairoRouter.delete("/:id", async (req, res,next) => {
         next(e);
     }
 
+});
+
+usuairoRouter.get("/perfil", async (req, res, next) => {
+
+    try {
+
+        if (!req.headers.authorization) {
+            throw new ErrorBase("token vazio!");
+        }
+
+        const token = req.headers.authorization.split(" ")[1];
+        const tokenCode = decodeToken(token);
+
+        const usuario = await UsuarioService.findById((tokenCode as JwtPayload).subject);
+        res.json(usuario);
+    } catch (e) {
+        next(e);
+    }
 });
 
 export default usuairoRouter;

@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import cors from "cors";
 import usuairoRouter from "./router/usuarioRouter";
 import testemuhoRouter from "./router/testemunhoRouter";
 import likeRouter from "./router/likeRouter";
@@ -13,10 +14,11 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use("/login", loginRouter);
 app.use("/cadastro",cadastroRouter);
-app.use(authenticationRouter);
+//app.use(authenticationRouter);
 
 
 app.use("/usuario", usuairoRouter);

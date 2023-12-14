@@ -2,6 +2,8 @@ import Express from "express";
 import Comentario from "../models/comentario";
 import ComentarioService from "../service/comentarioService";
 import ErrorBase from "../error/errorBase";
+import { decodeToken } from "../utilities/token";
+import { JwtPayload } from "jsonwebtoken";
 
 const comentarioRouter = Express.Router();
 
@@ -33,7 +35,7 @@ comentarioRouter.post("/", async (req, res, next) => {
 
     try {
         const comentarioSave = await ComentarioService.save(comentario);
-        res.json(comentario);
+        res.json(comentarioSave);
     } catch (e) {
         next(e);
     }
@@ -55,9 +57,12 @@ comentarioRouter.put("/:id", async (req, res, next) => {
 comentarioRouter.delete("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
+    const token = req.headers.authorization!.split(" ")[1];
+    const tokenDecode = decodeToken(token);
+    const autorId = (tokenDecode as JwtPayload).subject;
 
     try {
-        const comentario = await ComentarioService.delete(id);
+        const comentario = await ComentarioService.delete(id,autorId);
         res.json(comentario);
     } catch (e) {
         next(e);

@@ -31,6 +31,10 @@ export const gerarToken = ({
 
 }
 
+export const decodeToken = (token: string) => {
+    return jwt.decode(token);
+}
+
 export const verificaToken = (token: string) => {
     return jwt.verify(token, SEGREDO);
 }
