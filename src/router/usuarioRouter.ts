@@ -17,10 +17,8 @@ usuairoRouter.get("/", async (req, res, next) => {
     }
 });
 
-usuairoRouter.get("/:id", async (req, res, next) => {
-
+usuairoRouter.get("/:id(\\bid\\b)", async (req, res, next) => {
     const id = parseInt(req.params.id);
-
     try {
         const usuario = await UsuarioService.findById(id);
         res.json(usuario);
@@ -69,17 +67,17 @@ usuairoRouter.delete("/:id", async (req, res, next) => {
 });
 
 usuairoRouter.get("/perfil", async (req, res, next) => {
-
     try {
 
         if (!req.headers.authorization) {
             throw new ErrorBase("token vazio!");
         }
-
+        
         const token = req.headers.authorization.split(" ")[1];
         const tokenCode = decodeToken(token);
-
-        const usuario = await UsuarioService.findById((tokenCode as JwtPayload).subject);
+        const id = parseInt((tokenCode as JwtPayload).subject);
+        const usuario = await UsuarioService.findById(id);
+  
         res.json(usuario);
     } catch (e) {
         next(e);

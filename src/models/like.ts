@@ -1,5 +1,5 @@
 class Like{
-    id: number;
+    id?: number;
     comentarioId: number;
     usuarioId: number;
 

@@ -12,18 +12,21 @@ datasource db {
 
 model Usuario {
   id Int @id @default(autoincrement())
-  nome String 
+  nome String
+  sobrenome String? @default("")
+  estado String? @default("")
   email String @unique
   senha String
   testemunhos Testemunho[] 
   comentarios Comentario[]
   likes Like[]
+  dataCriacao DateTime @default(now())
 }
 
 model Testemunho {
   id Int @id @default(autoincrement())
   titulo String
-  conteudo String @db.VarChar(500)
+  conteudo String @db.VarChar(1800)
   autor Usuario @relation(fields: [autorId], references: [id])
   autorId Int
   dataCriacao DateTime @default(now())
@@ -41,6 +44,7 @@ model Comentario {
   outroComentarioId Int?
   outroComentarios Comentario[] @relation(name: "outroComentarios")
   likes Like[]
+  dataCriacao DateTime @default(now())
 }
 
 model Like {
@@ -49,4 +53,5 @@ model Like {
   comentarioId Int
   usuario Usuario @relation(fields: [usuarioId], references: [id])
   usuarioId Int
+  dataCriacao DateTime @default(now())
 }

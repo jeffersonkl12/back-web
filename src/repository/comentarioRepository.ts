@@ -18,10 +18,7 @@ class ComentarioRepository {
                         id: novo.testemunhoId
                     }
                 }
-            },
-            include: {
-                autor: excluirCampos("Usuario",["senha"])
-            }  
+            }
         });
     }
 

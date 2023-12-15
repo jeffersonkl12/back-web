@@ -4,13 +4,13 @@ import Usuario from "../models/usuario";
 import loginService from "./loginService";
 import UsuarioService from "./usuarioService";
 
-const cadastroService = async (nome: string, email: string, senha: string) => {
+const cadastroService = async (usuario: Usuario ) => {
 
-    if (email && senha && nome) {
+    if (usuario && usuario.nome && usuario.email && usuario.senha) {
         try {
-            const usuario = await UsuarioService.save(new Usuario(nome, email, senha));
-            if (usuario) {
-                return usuario;
+            const novoUsuario = await UsuarioService.save(usuario);
+            if (novoUsuario) {
+                return novoUsuario;
             }
         } catch (e) {
             if(e instanceof Prisma.PrismaClientKnownRequestError){

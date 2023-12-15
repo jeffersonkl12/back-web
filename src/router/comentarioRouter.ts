@@ -58,11 +58,12 @@ comentarioRouter.delete("/:id", async (req, res, next) => {
 
     const id = parseInt(req.params.id);
     const token = req.headers.authorization!.split(" ")[1];
-    const tokenDecode = decodeToken(token);
-    const autorId = (tokenDecode as JwtPayload).subject;
+    console.log(token);
 
     try {
-        const comentario = await ComentarioService.delete(id,autorId);
+        const tokenDecode = decodeToken(token);
+        const autorId = (tokenDecode as JwtPayload).subject;
+        const comentario = await ComentarioService.delete(id, autorId);
         res.json(comentario);
     } catch (e) {
         next(e);

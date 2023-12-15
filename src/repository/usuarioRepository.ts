@@ -67,7 +67,8 @@ class UsuarioRepository {
         return await prisma.usuario.findUnique({
             where: {
                 email: email
-            }
+            },
+            
         });
     };
 

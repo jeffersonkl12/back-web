@@ -8,9 +8,10 @@ const loginRouter = Express.Router();
 
 loginRouter.post("/", async (req, res, next) => {
 
+
     try {
         const [email, senha] = atob(req.headers.authorization!.split(" ")[1]).split(":");
-
+        
         const token = await loginService(email, senha);
 
         res.json({ token: token });

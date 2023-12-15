@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from "cors";
+import multer from "multer";
 import usuairoRouter from "./router/usuarioRouter";
 import testemuhoRouter from "./router/testemunhoRouter";
 import likeRouter from "./router/likeRouter";
@@ -10,14 +11,17 @@ import TokenError from './error/tokenError';
 import cadastroRouter from './router/cadastroRouter';
 import CredentialErros from './error/credentialsError';
 
+const upload = multer({ dest: 'uploads/' });
 const app = express();
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+
 app.use("/login", loginRouter);
-app.use("/cadastro",cadastroRouter);
+app.use("/cadastro",upload.single('avatar'),cadastroRouter);
 //app.use(authenticationRouter);
 
 

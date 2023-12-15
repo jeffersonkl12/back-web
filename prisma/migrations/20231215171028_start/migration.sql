@@ -2,8 +2,11 @@
 CREATE TABLE `Usuario` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(191) NOT NULL,
+    `sobrenome` VARCHAR(191) NULL DEFAULT '',
+    `estado` VARCHAR(191) NULL DEFAULT '',
     `email` VARCHAR(191) NOT NULL,
     `senha` VARCHAR(191) NOT NULL,
+    `dataCriacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `Usuario_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -13,7 +16,7 @@ CREATE TABLE `Usuario` (
 CREATE TABLE `Testemunho` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `titulo` VARCHAR(191) NOT NULL,
-    `conteudo` VARCHAR(191) NOT NULL,
+    `conteudo` VARCHAR(500) NOT NULL,
     `autorId` INTEGER NOT NULL,
     `dataCriacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
@@ -27,6 +30,7 @@ CREATE TABLE `Comentario` (
     `usuarioId` INTEGER NOT NULL,
     `testemunhoId` INTEGER NOT NULL,
     `outroComentarioId` INTEGER NULL,
+    `dataCriacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -36,6 +40,7 @@ CREATE TABLE `Like` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `comentarioId` INTEGER NOT NULL,
     `usuarioId` INTEGER NOT NULL,
+    `dataCriacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

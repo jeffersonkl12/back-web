@@ -5,7 +5,7 @@ import UsuarioService from "./usuarioService";
 
 const loginService = async (email: string, senha: string) => {
     const usuario = await UsuarioService.findUsuarioByEmailAndSenha(email,senha);
-
+  
     if (usuario) {
         const token = gerarToken({ sub: usuario.id.toString() });
 
